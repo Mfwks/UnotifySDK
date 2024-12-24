@@ -1,0 +1,14 @@
+{
+    "name": "mfwks/unotifysdk",
+    "description": "SDK oficial para integração simplificada com as API's do Unotify.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eskelsen",
+            "email": "dev@microframeworks.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
