@@ -22,8 +22,7 @@ class Unotify
 		$data['api_token'] = $this->api_token;
 		$data['host']	   = $_SERVER['HTTP_HOST'];
 		$url = rtrim($this->url_base, '/') . '/acesso/';
-		$response = self::request($url, $data, $this->assoc);
-		return self::response($response);
+		return self::request($url, $data, $this->assoc);
 	}
 	
 	public function enviarMsgWhatsApp($phone, $message)
@@ -32,6 +31,15 @@ class Unotify
 		$data['phone']   	= $phone;
 		$data['message'] 	= $message;
 		$url = rtrim($this->url_base, '/') . '/wapi/sendmsg/';
+		return self::request($url, $data, $this->assoc);
+	}
+	
+	public function enviarMsgTelegram($chat_id, $message)
+	{
+		$data['api_token'] 	= $this->api_token;
+		$data['chat_id']   	= $chat_id;
+		$data['message'] 	= $message;
+		$url = rtrim($this->url_base, '/') . '/tgm/sendmsg/';
 		return self::request($url, $data, $this->assoc);
 	}
 	
