@@ -9,8 +9,6 @@ class Unotify
 	public string $api_token;
 	public string $url_base;
 	
-	public bool $assoc = false;
-	
 	public function __construct($api_token, $url_base)
 	{
 		$this->api_token = $api_token;
@@ -22,7 +20,7 @@ class Unotify
 		$data['api_token'] = $this->api_token;
 		$data['host']	   = $_SERVER['HTTP_HOST'];
 		$url = rtrim($this->url_base, '/') . '/acesso/';
-		return self::request($url, $data, $this->assoc);
+		return self::request($url, $data);
 	}
 	
 	public function enviarMsgWhatsApp($phone, $message)
@@ -31,7 +29,7 @@ class Unotify
 		$data['phone']   	= $phone;
 		$data['message'] 	= $message;
 		$url = rtrim($this->url_base, '/') . '/wapi/sendmsg/';
-		return self::request($url, $data, $this->assoc);
+		return self::request($url, $data);
 	}
 	
 	public function enviarMsgTelegram($chat_id, $message)
@@ -40,17 +38,33 @@ class Unotify
 		$data['chat_id']   	= $chat_id;
 		$data['message'] 	= $message;
 		$url = rtrim($this->url_base, '/') . '/tgm/sendmsg/';
-		return self::request($url, $data, $this->assoc);
+		return self::request($url, $data);
 	}
 	
-	public function enviarEmail($email, $title, $message)
+	public function enviarEmail($email, $title, $message, $template = false)
 	{
 		$data['api_token'] 	= $this->api_token;
 		$data['email'] 	 	= $email;
 		$data['title'] 		= $title;
 		$data['message'] 	= $message;
+		if ($template) {
+			$data['template_id'] = $template;
+		}
 		$url = rtrim($this->url_base, '/') . '/email/sendmail/';
-		return self::request($url, $data, $this->assoc);
+		return self::request($url, $data);
+	}
+	
+	public function enviarEmailsBroadcast($dataset, $title, $message, $template = false)
+	{
+		$data['api_token'] 	= $this->api_token;
+		$data['dataset']	= $dataset; # [['email' => 'email', 'var' => 'var']]
+		$data['title'] 		= $title;
+		$data['message'] 	= $message;
+		if ($template) {
+			$data['template_id'] = $template;
+		}
+		$url = rtrim($this->url_base, '/') . '/email/sendmailbroadcast/';
+		return self::request($url, $data);
 	}
 	
 	public function webhookWhatsApp($url)
@@ -68,10 +82,10 @@ class Unotify
 		$data['api_token'] = $this->api_token;
 		$data[$field] = $value;
 		$url = rtrim($this->url_base, '/') . '/webhooks/';
-		return self::request($url, $data, $this->assoc);
+		return self::request($url, $data);
 	}
 	
-	private static function request($url, $data, $assoc = false)
+	private static function request($url, $data)
 	{
 		$curl = curl_init();
 		
@@ -105,6 +119,6 @@ class Unotify
 			return false;
 		}
 
-		return json_decode($response, $assoc);
+		return $response;
 	}
 }
