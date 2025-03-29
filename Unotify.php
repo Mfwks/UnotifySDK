@@ -63,7 +63,7 @@ class Unotify
 		if ($template) {
 			$data['template_id'] = $template;
 		}
-		$url = rtrim($this->url_base, '/') . '/email/sendmailbroadcast/';
+		$url = rtrim($this->url_base, '/') . '/email/broadcast/';
 		return self::request($url, $data);
 	}
 	
