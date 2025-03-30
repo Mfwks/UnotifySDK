@@ -41,28 +41,23 @@ class Unotify
 		return self::request($url, $data);
 	}
 	
-	public function enviarEmail($email, $title, $message, $template = false)
+	public function enviarEmail($email, $title, $message)
 	{
 		$data['api_token'] 	= $this->api_token;
 		$data['email'] 	 	= $email;
 		$data['title'] 		= $title;
 		$data['message'] 	= $message;
-		if ($template) {
-			$data['template_id'] = $template;
-		}
 		$url = rtrim($this->url_base, '/') . '/email/sendmail/';
 		return self::request($url, $data);
 	}
 	
-	public function enviarEmailsBroadcast($dataset, $title, $message, $template = false)
+	public function enviarEmailsBroadcast($dataset, $title, $template, $init = false)
 	{
-		$data['api_token'] 	= $this->api_token;
-		$data['dataset']	= $dataset; # [['email' => 'email', 'var' => 'var']]
-		$data['title'] 		= $title;
-		$data['message'] 	= $message;
-		if ($template) {
-			$data['template_id'] = $template;
-		}
+		$data['api_token'] 	 = $this->api_token;
+		$data['dataset']	 = $dataset; # [['email' => 'email', 'var' => 'var']]
+		$data['title'] 		 = $title;
+		$data['template_id'] = $template;
+		$data['init'] 		 = $init; # Y-m-d H:i:s || false = immediate
 		$url = rtrim($this->url_base, '/') . '/email/broadcast/';
 		return self::request($url, $data);
 	}
