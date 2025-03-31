@@ -19,7 +19,7 @@ class Unotify
 	{
 		$data['host']	   = $_SERVER['HTTP_HOST'];
 		$url = rtrim($this->url_base, '/') . '/acesso/';
-		return self::request($url, $data);
+		return $this->request($url, $data);
 	}
 	
 	public function enviarMsgWhatsApp($phone, $message)
@@ -27,7 +27,7 @@ class Unotify
 		$data['phone']   	= $phone;
 		$data['message'] 	= $message;
 		$url = rtrim($this->url_base, '/') . '/wapi/sendmsg/';
-		return self::request($url, $data);
+		return $this->request($url, $data);
 	}
 	
 	public function enviarMsgTelegram($chat_id, $message)
@@ -35,7 +35,7 @@ class Unotify
 		$data['chat_id']   	= $chat_id;
 		$data['message'] 	= $message;
 		$url = rtrim($this->url_base, '/') . '/tgm/sendmsg/';
-		return self::request($url, $data);
+		return $this->request($url, $data);
 	}
 	
 	public function enviarEmail($email, $title, $message)
@@ -44,7 +44,7 @@ class Unotify
 		$data['title'] 		= $title;
 		$data['message'] 	= $message;
 		$url = rtrim($this->url_base, '/') . '/email/sendmail/';
-		return self::request($url, $data);
+		return $this->request($url, $data);
 	}
 	
 	public function enviarEmailsBroadcast($dataset, $title, $template, $init = false)
@@ -54,7 +54,7 @@ class Unotify
 		$data['template_id'] = $template;
 		$data['init'] 		 = $init; # Y-m-d H:i:s || false = immediate
 		$url = rtrim($this->url_base, '/') . '/email/broadcast/';
-		return self::request($url, $data);
+		return $this->request($url, $data);
 	}
 	
 	public function webhookWhatsApp($url)
@@ -71,10 +71,10 @@ class Unotify
 	{
 		$data[$field] = $value;
 		$url = rtrim($this->url_base, '/') . '/webhooks/';
-		return self::request($url, $data);
+		return $this->request($url, $data);
 	}
 	
-	private static function request($url, $data)
+	private function request($url, $data)
 	{
 		$curl = curl_init();
 		
