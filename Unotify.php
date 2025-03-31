@@ -17,7 +17,6 @@ class Unotify
 	
 	public function obterAcesso()
 	{
-		$data['api_token'] = $this->api_token;
 		$data['host']	   = $_SERVER['HTTP_HOST'];
 		$url = rtrim($this->url_base, '/') . '/acesso/';
 		return self::request($url, $data);
@@ -25,7 +24,6 @@ class Unotify
 	
 	public function enviarMsgWhatsApp($phone, $message)
 	{
-		$data['api_token'] 	= $this->api_token;
 		$data['phone']   	= $phone;
 		$data['message'] 	= $message;
 		$url = rtrim($this->url_base, '/') . '/wapi/sendmsg/';
@@ -34,7 +32,6 @@ class Unotify
 	
 	public function enviarMsgTelegram($chat_id, $message)
 	{
-		$data['api_token'] 	= $this->api_token;
 		$data['chat_id']   	= $chat_id;
 		$data['message'] 	= $message;
 		$url = rtrim($this->url_base, '/') . '/tgm/sendmsg/';
@@ -43,7 +40,6 @@ class Unotify
 	
 	public function enviarEmail($email, $title, $message)
 	{
-		$data['api_token'] 	= $this->api_token;
 		$data['email'] 	 	= $email;
 		$data['title'] 		= $title;
 		$data['message'] 	= $message;
@@ -53,7 +49,6 @@ class Unotify
 	
 	public function enviarEmailsBroadcast($dataset, $title, $template, $init = false)
 	{
-		$data['api_token'] 	 = $this->api_token;
 		$data['dataset']	 = $dataset; # [['email' => 'email', 'var' => 'var']]
 		$data['title'] 		 = $title;
 		$data['template_id'] = $template;
@@ -74,7 +69,6 @@ class Unotify
 	
 	private function webhook($field,$value)
 	{
-		$data['api_token'] = $this->api_token;
 		$data[$field] = $value;
 		$url = rtrim($this->url_base, '/') . '/webhooks/';
 		return self::request($url, $data);
@@ -84,7 +78,9 @@ class Unotify
 	{
 		$curl = curl_init();
 		
-		$json = is_string($data) ? $data : json_encode($data);
+		$data['api_token'] = $this->api_token;
+		
+		$json = json_encode($data);
 
 		$headers = [
 			'Content-Type: application/json',
