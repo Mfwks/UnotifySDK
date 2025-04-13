@@ -10,6 +10,15 @@ $uny = new Unotify('token','https://unotify.mfwks.com/api/');
 Requerer acesso à API (é necessário aprovar no dashboard):
 ```php
 $uny->obterAcesso();
+$uny->obterAcesso('meuhost.com'); # No modo cli você deve especificar explicitamente o nome do host como argumento.
+```
+O arquivo **install.php** serve como base para setup no modo cli ou web (http), bastando **configurar o caminho do SDK, API Token e URL Base** e executar o arquivo via linha de comando:
+```shell
+php caminho/da/aplicacao/install.php nome_do_host
+```
+Ou web, acessando a URL do arquivo:
+```shell
+https://site.com/caminho/da/aplicacao/install.php
 ```
 Casos de uso:
 ```php

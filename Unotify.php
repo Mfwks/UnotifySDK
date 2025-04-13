@@ -15,9 +15,12 @@ class Unotify
 		$this->url_base = $url_base;
 	}
 	
-	public function obterAcesso()
+	public function obterAcesso($hostname = false)
 	{
-		$data['host']	   = $_SERVER['HTTP_HOST'];
+		if (php_sapi_name()==='cli' && !$hostname) {
+			exit('No modo cli você deve especificar explicitamente o nome do host como argumento.' . PHP_EOL);
+		}
+		$data['host'] = $hostname ? $hostname : ($_SERVER['HTTP_HOST'] ?? gethostname());
 		$url = rtrim($this->url_base, '/') . '/acesso/';
 		return $this->request($url, $data);
 	}
